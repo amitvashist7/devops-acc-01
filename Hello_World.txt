@@ -1,2 +1,2 @@
 Welcome to the World Of DevOps.
-My Name is: Amit Vashist
+My Name is: Amit
