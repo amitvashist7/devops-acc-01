@@ -16,5 +16,8 @@ RUN echo "Welcome To the world of Docker Images" > /var/www/html/index.html
 # Injecting the Application Code inside Image 
 COPY amit.html /var/www/html/info.html
 
+# Expose the Service Port.
+EXPOSE 80
+
 # Bring the Apache Service 
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
