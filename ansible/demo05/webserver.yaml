@@ -1,0 +1,25 @@
+---
+
+- hosts: dc
+  sudo: yes
+
+  vars:
+    doc_root: "/var/www/html"
+    name: "Amit"
+
+  tasks:
+  - name: Install Apache Packages 
+    apt: name=apache2 state=present
+ 
+  - name: Start Apache Service
+    service: name=apache2 state=started
+
+  - name: Deploy Apache Index Page
+    copy: src=templates/index.html dest={{doc_root}}/index.html
+  
+  - name: Deploy Apache Info Template Page
+    template: src=templates/info.j2 dest={{doc_root}}/info.html
+
+  - name: Download Super Mario Background Image. 
+    get_url: url="http://www.mariomayhem.com/downloads/wallpapers/2/nsmb_wp2_1024.jpg" dest={{doc_root}}/mario.jpg mode=0755
+  
