@@ -1,6 +1,6 @@
 ---
 
-- hosts: dc
+- hosts: prod
   sudo: yes
 
   vars:
