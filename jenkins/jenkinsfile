@@ -1,0 +1,39 @@
+node {
+    
+stage('Git CheckOut') {    
+git url: 'https://github.com/amitvashist7/devops-acc-01.git'
+}
+
+def project_path = "jenkins2-course-spring-boot/spring-boot-samples/spring-boot-sample-atmosphere"
+dir(project_path) {
+
+stage('Clean Old Packages') {
+sh label: 'Clean', script: 'mvn clean'
+}
+stage('Maven Compile') {
+sh label: 'Comile', script: 'mvn compile'
+}
+stage('Maven Test') {
+sh label: 'Testing', script: 'mvn test'
+}
+
+stage('Maven Package') {
+sh label: 'Testing', script: 'mvn package'
+}
+
+stage('Archive Package') {
+archive 'target/*.jar'
+}
+
+
+
+stage('Getting Ready for Prod Deployments') {
+sh label: 'Copy Jar', script: 'cp -rf target/*.jar ../../../ansible/demo05/templates/atmosphere-v1.jar'
+sh label: 'Copy Jar', script: "echo '<h1> TASK BUILD ID: ${env.BUILD_DISPLAY_NAME}</h1>' > ../../../ansible/demo05/templates/index.html"
+}
+
+stage('Getting Ready for Prod Deployments') {
+sh label: 'Ansible', script: 'ansible-playbook -i ../../../ansible/demo05/inventory ../../../ansible/demo05/webserver.yaml -u ubuntu --key-file=/root/.ssh/mydevops.pem'
+}
+}
+}
